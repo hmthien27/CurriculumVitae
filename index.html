@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Huỳnh Minh Thiện – Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:        #f5f3ef;
+      --surface:   #ffffff;
+      --border:    #e2ddd6;
+      --text:      #2c2a27;
+      --muted:     #7a7570;
+      --accent:    #4a6741;
+      --accent-lt: #dce8d8;
+      --nav-h:     64px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; font-size: 16px; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      line-height: 1.7;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      height: var(--nav-h);
+      background: rgba(245,243,239,.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 5%;
+    }
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem; font-weight: 700;
+      color: var(--accent); letter-spacing: .03em;
+    }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      text-decoration: none; font-size: .85rem; font-weight: 400;
+      color: var(--muted); letter-spacing: .06em; text-transform: uppercase;
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+
+    /* ── HERO ── */
+    #home {
+      min-height: 100vh;
+      padding-top: var(--nav-h);
+      display: flex; align-items: center;
+      padding-left: 10%; padding-right: 10%;
+      gap: 6rem;
+    }
+    .hero-text { flex: 1; }
+    .hero-tag {
+      display: inline-block;
+      background: var(--accent-lt); color: var(--accent);
+      font-size: .78rem; font-weight: 500;
+      letter-spacing: .1em; text-transform: uppercase;
+      padding: .35rem .9rem; border-radius: 2rem;
+      margin-bottom: 1.4rem;
+    }
+    .hero-text h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.4rem, 5vw, 3.6rem);
+      font-weight: 700; line-height: 1.18;
+      color: var(--text); margin-bottom: 1rem;
+    }
+    .hero-text h1 span { color: var(--accent); }
+    .hero-text p {
+      font-size: 1rem; color: var(--muted);
+      max-width: 440px; margin-bottom: 2.2rem;
+    }
+    .btn-group { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn {
+      display: inline-block; padding: .7rem 1.8rem;
+      border-radius: 4px; font-size: .88rem; font-weight: 500;
+      text-decoration: none; cursor: pointer; transition: all .2s;
+      border: 1.5px solid transparent;
+    }
+    .btn-primary {
+      background: var(--accent); color: #fff;
+      border-color: var(--accent);
+    }
+    .btn-primary:hover { background: #3b5433; }
+    .btn-outline {
+      background: transparent; color: var(--accent);
+      border-color: var(--accent);
+    }
+    .btn-outline:hover { background: var(--accent-lt); }
+
+    .hero-photo { flex-shrink: 0; }
+    .avatar-wrap {
+      width: 260px; height: 310px;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 3px solid var(--border);
+      background: var(--surface);
+      box-shadow: 0 12px 40px rgba(0,0,0,.08);
+      display: flex; align-items: center; justify-content: center;
+      position: relative;
+    }
+    .avatar-wrap img {
+      width: 100%; height: 100%; object-fit: cover;
+      display: block;
+    }
+    .avatar-placeholder {
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: .6rem;
+      color: var(--muted); font-size: .82rem; text-align: center; padding: 1rem;
+    }
+    .avatar-placeholder svg { opacity: .35; }
+    .avatar-badge {
+      position: absolute; bottom: -14px; left: 50%; transform: translateX(-50%);
+      background: var(--accent); color: #fff;
+      font-size: .75rem; font-weight: 500;
+      padding: .3rem .9rem; border-radius: 2rem; white-space: nowrap;
+    }
+    .avatar-outer { position: relative; padding-bottom: 20px; }
+
+    .hero-name {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      color: var(--muted); font-weight: 400;
+      margin-bottom: .5rem; letter-spacing: .04em;
+      text-align: center;
+    }
+
+    /* ── OBJECTIVE ── */
+    #objective { background: var(--bg); }
+    .obj-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1.2rem; margin-top: .5rem;
+    }
+    .obj-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 8px; padding: 1.6rem 1.8rem;
+      transition: box-shadow .2s, transform .2s;
+    }
+    .obj-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,.07); }
+    .obj-card-icon { font-size: 1.6rem; margin-bottom: .7rem; }
+    .obj-card h4 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem; font-weight: 600; margin-bottom: .5rem;
+    }
+    .obj-card p { font-size: .87rem; color: var(--muted); line-height: 1.65; }
+    .obj-intro {
+      background: var(--surface); border: 1px solid var(--border);
+      border-left: 4px solid var(--accent);
+      border-radius: 8px; padding: 1.6rem 2rem;
+      margin-bottom: 2rem; font-size: .95rem; color: var(--muted); line-height: 1.75;
+    }
+    section { padding: 90px 10%; }
+    section:nth-child(odd) { background: var(--bg); }
+    section:nth-child(even) { background: var(--surface); }
+
+    .sec-label {
+      font-size: .78rem; font-weight: 500; letter-spacing: .12em;
+      text-transform: uppercase; color: var(--accent); margin-bottom: .6rem;
+    }
+    .sec-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.7rem, 3vw, 2.4rem); font-weight: 700;
+      color: var(--text); margin-bottom: 3rem;
+    }
+    .divider {
+      width: 40px; height: 2px; background: var(--accent);
+      margin: .8rem 0 2.6rem;
+    }
+
+    /* ── EDUCATION ── */
+    .edu-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--accent);
+      border-radius: 8px; padding: 2rem 2.2rem;
+      margin-bottom: 1.6rem;
+      transition: box-shadow .2s;
+    }
+    #education { background: var(--surface); }
+    #education .edu-card { background: var(--bg); }
+    .edu-card:hover { box-shadow: 0 6px 24px rgba(0,0,0,.07); }
+    .edu-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem; font-weight: 600; margin-bottom: .3rem;
+    }
+    .edu-meta {
+      font-size: .83rem; color: var(--accent);
+      font-weight: 500; margin-bottom: .8rem;
+      display: flex; gap: 1.2rem; flex-wrap: wrap;
+    }
+    .edu-meta span { display: flex; align-items: center; gap: .3rem; }
+    .edu-card p { font-size: .9rem; color: var(--muted); }
+    .tag-thesis {
+      display: inline-block; margin-top: .9rem;
+      background: var(--accent-lt); color: var(--accent);
+      font-size: .78rem; font-weight: 500;
+      padding: .28rem .75rem; border-radius: 3px;
+    }
+
+    /* ── CERTS ── */
+    .certs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 1.2rem;
+    }
+    .cert-card {
+      border: 1px solid var(--border); border-radius: 8px;
+      padding: 1.5rem 1.6rem; background: var(--surface);
+      transition: transform .2s, box-shadow .2s;
+      position: relative; overflow: hidden;
+    }
+    #certifications { background: var(--bg); }
+    #certifications .cert-card { background: var(--surface); }
+    .cert-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0;
+      height: 3px; background: var(--accent);
+    }
+    .cert-card:hover { transform: translateY(-4px); box-shadow: 0 10px 30px rgba(0,0,0,.08); }
+    .cert-icon { font-size: 1.7rem; margin-bottom: .8rem; }
+    .cert-card h4 { font-size: .95rem; font-weight: 500; margin-bottom: .4rem; }
+    .cert-card .cert-rank {
+      display: inline-block; font-size: .75rem; font-weight: 600;
+      background: #fef9e7; color: #b8860b;
+      padding: .2rem .6rem; border-radius: 3px;
+    }
+    .cert-card .cert-rank.pass {
+      background: var(--accent-lt); color: var(--accent);
+    }
+
+    /* ── EXPERIENCE ── */
+    .exp-timeline { position: relative; padding-left: 28px; }
+    .exp-timeline::before {
+      content: ''; position: absolute; left: 8px; top: 8px; bottom: 8px;
+      width: 2px; background: var(--border);
+    }
+    .exp-item { position: relative; margin-bottom: 2.4rem; }
+    .exp-dot {
+      position: absolute; left: -24px; top: 6px;
+      width: 14px; height: 14px; border-radius: 50%;
+      background: var(--accent); border: 3px solid var(--bg);
+    }
+    #experience { background: var(--surface); }
+    #experience .exp-dot { border-color: var(--surface); }
+    .exp-card {
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: 8px; padding: 1.6rem 1.8rem;
+    }
+    #experience .exp-card { background: var(--bg); }
+    .exp-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem; font-weight: 600; margin-bottom: .25rem;
+    }
+    .exp-company {
+      font-size: .85rem; color: var(--accent); font-weight: 500;
+      margin-bottom: .35rem;
+    }
+    .exp-period {
+      font-size: .8rem; color: var(--muted); margin-bottom: .9rem;
+      display: flex; align-items: center; gap: .4rem;
+    }
+    .badge-current {
+      background: var(--accent); color: #fff;
+      font-size: .7rem; font-weight: 600;
+      padding: .18rem .55rem; border-radius: 2rem;
+    }
+    .exp-card ul { list-style: none; }
+    .exp-card ul li {
+      font-size: .9rem; color: var(--muted);
+      padding: .2rem 0; display: flex; align-items: flex-start; gap: .6rem;
+    }
+    .exp-card ul li::before {
+      content: '▸'; color: var(--accent); flex-shrink: 0; margin-top: .05rem;
+    }
+
+    /* ── SKILLS ── */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.4rem;
+    }
+    .skill-group {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 8px; padding: 1.6rem 1.8rem;
+    }
+    #skills { background: var(--bg); }
+    .skill-group h4 {
+      font-size: .83rem; letter-spacing: .09em; text-transform: uppercase;
+      color: var(--accent); font-weight: 600; margin-bottom: 1rem;
+    }
+    .skill-pills { display: flex; flex-wrap: wrap; gap: .5rem; }
+    .pill {
+      background: var(--bg); border: 1px solid var(--border);
+      color: var(--text); font-size: .82rem;
+      padding: .3rem .75rem; border-radius: 3px;
+    }
+
+    /* ── CONTACT ── */
+    #contact { background: var(--surface); text-align: center; }
+    .contact-card {
+      max-width: 520px; margin: 0 auto;
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: 12px; padding: 3rem;
+    }
+    .contact-card p { color: var(--muted); margin-bottom: 2rem; font-size: .95rem; }
+    .contact-links { display: flex; flex-direction: column; gap: .9rem; }
+    .contact-link {
+      display: flex; align-items: center; gap: .85rem;
+      padding: .9rem 1.2rem; border-radius: 6px;
+      border: 1px solid var(--border); background: var(--surface);
+      text-decoration: none; color: var(--text);
+      font-size: .9rem; transition: all .2s;
+    }
+    .contact-link:hover { border-color: var(--accent); color: var(--accent); }
+    .contact-link svg { flex-shrink: 0; }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center; padding: 2.4rem 10%;
+      border-top: 1px solid var(--border);
+      font-size: .82rem; color: var(--muted);
+      background: var(--bg);
+    }
+
+    /* ── SCROLL ANIMATIONS ── */
+    .reveal { opacity: 0; transform: translateY(22px); transition: opacity .55s ease, transform .55s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      #home { flex-direction: column-reverse; padding-top: calc(var(--nav-h) + 2rem); gap: 2.5rem; text-align: center; }
+      .hero-text p { max-width: 100%; }
+      .btn-group { justify-content: center; }
+      .avatar-wrap { width: 200px; height: 240px; }
+      .nav-links { gap: 1.1rem; }
+      section { padding: 70px 6%; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Hello Everyone</div>
+  <ul class="nav-links">
+    <li><a href="#home">Trang chủ</a></li>
+    <li><a href="#objective">Mục tiêu</a></li>
+    <li><a href="#education">Học vấn</a></li>
+    <li><a href="#certifications">Chứng chỉ</a></li>
+    <li><a href="#experience">Kinh nghiệm</a></li>
+    <li><a href="#skills">Kỹ năng</a></li>
+    <li><a href="#contact">Liên hệ</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="home">
+  <div class="hero-text reveal">
+    
+    <h1>Kỹ Sư<br><span>Mạng Máy Tính  và <br>Truyền Thông Dữ Liệu</span></h1>
+    <p>Kỹ sư chuyên ngành Mạng Máy Tính &amp; Truyền Thông Dữ Liệu với nền tảng vững chắc về hạ tầng mạng, bảo mật và hỗ trợ kỹ thuật.</p>
+    <div class="btn-group">
+      <a href="#experience" class="btn btn-primary">Xem kinh nghiệm</a>
+      <a href="#contact" class="btn btn-outline">Thông tin liên hệ</a>
+    </div>
+  </div>
+  <div class="hero-photo reveal">
+    <div class="avatar-outer">
+      <div class="avatar-wrap">
+        <!-- Thay src bằng đường dẫn ảnh thật của bạn -->
+        <div class="avatar-placeholder">
+          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+            <img src="thien_img.jpg" alt="">
+          </svg>
+          <span>Ảnh đại diện<br><small style="opacity:.6">(thay bằng ảnh thật)</small></span>
+        </div>
+      </div>
+      <br>
+        <p class="hero-name">Huỳnh Minh Thiện</p>
+        <span class="hero-tag">IT Support · Network Engineer</span>
+    </div>
+  </div>
+</section>
+
+<!-- OBJECTIVE -->
+<section id="objective">
+  <p class="sec-label reveal">Định hướng</p>
+  <h2 class="sec-title reveal">Mục tiêu nghề nghiệp</h2>
+  <div class="divider reveal"></div>
+
+  <div class="obj-intro reveal">
+    Với nền tảng vững chắc về mạng máy tính, bảo mật và hỗ trợ kỹ thuật, tôi mong muốn không ngừng phát triển bản thân để trở thành một kỹ sư hệ thống/mạng chuyên nghiệp. Tôi định hướng xây dựng sự nghiệp trong lĩnh vực hạ tầng CNTT, góp phần nâng cao hiệu quả hoạt động và bảo mật thông tin cho tổ chức.
+  </div>
+
+  <div class="obj-grid">
+    <div class="obj-card reveal">
+      <div class="obj-card-icon">🎯</div>
+      <h4>Ngắn hạn (1–2 năm)</h4>
+      <p>Củng cố kinh nghiệm IT Support, nắm vững vận hành hạ tầng mạng doanh nghiệp. Hoàn thiện kỹ năng xử lý sự cố và quản trị hệ thống Windows Server / Linux.</p>
+    </div>
+    <div class="obj-card reveal">
+      <div class="obj-card-icon">🚀</div>
+      <h4>Trung hạn (3–5 năm)</h4>
+      <p>Phát triển lên vị trí Network Engineer hoặc System Administrator. Mở rộng kiến thức về Cloud (AWS/Azure) và bảo mật thông tin chuyên sâu.</p>
+    </div>
+    <div class="obj-card reveal">
+      <div class="obj-card-icon">🌐</div>
+      <h4>Dài hạn</h4>
+      <p>Đảm nhận vai trò quản lý hệ thống CNTT cấp cao hoặc chuyên gia tư vấn giải pháp mạng & bảo mật cho doanh nghiệp vừa và lớn.</p>
+    </div>
+    <div class="obj-card reveal">
+      <div class="obj-card-icon">📚</div>
+      <h4>Phát triển bản thân</h4>
+      <p>Tiếp tục học tập các chứng chỉ quốc tế như CCNP, CompTIA Security+, AWS Solutions Architect để nâng cao năng lực chuyên môn.</p>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <p class="sec-label reveal">Học vấn</p>
+  <h2 class="sec-title reveal">Quá trình học tập</h2>
+  <div class="divider reveal"></div>
+
+  <div class="edu-card reveal">
+    <h3>Kỹ sư – Mạng Máy Tính và Truyền Thông Dữ Liệu</h3>
+    <div class="edu-meta">
+      <span>🎓 Đại Học Cần Thơ</span>
+      <span>📅 Khoá 46</span>
+    </div>
+    <p>Chuyên ngành Mạng Máy Tính và Truyền Thông. Trang bị kiến thức về hạ tầng mạng, giao thức truyền thông, bảo mật hệ thống và quản trị máy chủ.</p>
+    <span class="tag-thesis">🐾 Luận văn: Website Cửa Hàng Chăm Sóc Thú Cưng Trực Tuyến</span>
+    <p style="margin-top:.75rem; font-size:.88rem; color:var(--muted);">
+      Xây dựng hệ thống thương mại điện tử tích hợp đặt lịch chăm sóc, lịch khám bệnh cho thú cưng. Phát triển bằng framework <strong>PHP Laravel</strong>.
+    </p>
+  </div>
+</section>
+
+<!-- CERTIFICATIONS -->
+<section id="certifications">
+  <p class="sec-label reveal">Chứng chỉ</p>
+  <h2 class="sec-title reveal">Chứng chỉ chuyên môn</h2>
+  <div class="divider reveal"></div>
+
+  <div class="certs-grid">
+
+    <div class="cert-card reveal">
+      <div class="cert-icon">🖥️</div>
+      <h4>MCSA</h4>
+      <p style="font-size:.83rem; color:var(--muted); margin-bottom:.6rem;">Microsoft Certified Solutions Associate</p>
+      <span class="cert-rank">⭐ Xuất Sắc</span>
+    </div>
+
+    <div class="cert-card reveal">
+      <div class="cert-icon">🌐</div>
+      <h4>CCNA</h4>
+      <p style="font-size:.83rem; color:var(--muted); margin-bottom:.6rem;">Cisco Certified Network Associate</p>
+      <span class="cert-rank">⭐ Xuất Sắc</span>
+    </div>
+
+    <div class="cert-card reveal">
+      <div class="cert-icon">🔐</div>
+      <h4>Cybersecurity Essentials</h4>
+      <p style="font-size:.83rem; color:var(--muted); margin-bottom:.6rem;">Cisco Networking Academy</p>
+      <span class="cert-rank pass">✔ Hoàn thành</span>
+    </div>
+
+    <div class="cert-card reveal">
+      <div class="cert-icon">📡</div>
+      <h4>Networking Essentials</h4>
+      <p style="font-size:.83rem; color:var(--muted); margin-bottom:.6rem;">Cisco Networking Academy</p>
+      <span class="cert-rank pass">✔ Hoàn thành</span>
+    </div>
+
+    <div class="cert-card reveal">
+      <div class="cert-icon">☁️</div>
+      <h4>AWS Cloud Practitioner Essentials</h4>
+      <p style="font-size:.83rem; color:var(--muted); margin-bottom:.6rem;">Amazon Web Services</p>
+      <span class="cert-rank pass">✔ Hoàn thành</span>
+    </div>
+
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <p class="sec-label reveal">Kinh nghiệm</p>
+  <h2 class="sec-title reveal">Kinh nghiệm làm việc</h2>
+  <div class="divider reveal"></div>
+
+  <div class="exp-timeline">
+    <div class="exp-item reveal">
+      <div class="exp-dot"></div>
+      <div class="exp-card">
+        <h3>IT Support</h3>
+        <div class="exp-company">Công Ty Cổ Phần Xuất Nhập Khẩu Sa Giang</div>
+        <div class="exp-period">
+          📅 Tháng 2 / 2025 – Hiện tại
+          <span class="badge-current">Đang làm việc</span>
+        </div>
+        <ul>
+          <li>Hỗ trợ kỹ thuật và xử lý sự cố phần cứng, phần mềm cho người dùng.</li>
+          <li>Cấu hình, bảo trì hệ thống mạng nội bộ và thiết bị văn phòng.</li>
+          <li>Quản lý tài khoản người dùng và phân quyền hệ thống.</li>
+          <li>Hỗ trợ triển khai và cập nhật phần mềm, hệ điều hành.</li>
+          <li>Làm việc tại phòng Nhân Sự – tích lũy thêm kinh nghiệm về quy trình tổ chức nội bộ, phối hợp liên phòng ban và hỗ trợ các công việc hành chính nhân sự.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="exp-item reveal">
+      <div class="exp-dot" style="background:var(--muted);"></div>
+      <div class="exp-card">
+        <h3>Thực tập sinh – Triển khai CNTT</h3>
+        <div class="exp-company">VNPT – Trung tâm Huyện Lai Vung</div>
+        <div class="exp-period">📅 Tháng 5 / 2024 – Tháng 7 / 2024</div>
+        <ul>
+          <li>Triển khai và hướng dẫn sử dụng <strong>Chữ ký số</strong> cho các cơ quan, trường học trên địa bàn huyện Lai Vung.</li>
+          <li>Hỗ trợ triển khai phần mềm quản lý giáo dục <strong>VnEdu</strong> đến các trường học trong huyện.</li>
+          <li>Trực tiếp làm việc với cán bộ, giáo viên để hướng dẫn, xử lý sự cố trong quá trình sử dụng hệ thống.</li>
+          <li>Rèn luyện kỹ năng làm việc nhóm và kỹ năng giải quyết vấn đề trong môi trường thực tế.</li>
+        </ul>
+        <span class="tag-thesis" style="margin-top:.8rem; display:inline-block;">📍 Huyện Lai Vung, Đồng Tháp</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <p class="sec-label reveal">Kỹ năng</p>
+  <h2 class="sec-title reveal">Kỹ năng chuyên môn</h2>
+  <div class="divider reveal"></div>
+
+  <div class="skills-grid">
+    <div class="skill-group reveal">
+      <h4>Hạ tầng mạng</h4>
+      <div class="skill-pills">
+        <span class="pill">TCP/IP</span>
+        <span class="pill">VLAN</span>
+        <span class="pill">Routing &amp; Switching</span>
+        <span class="pill">DNS / DHCP</span>
+        <span class="pill">Firewall</span>
+        <span class="pill">VPN</span>
+      </div>
+    </div>
+    <div class="skill-group reveal">
+      <h4>Hệ điều hành &amp; Server</h4>
+      <div class="skill-pills">
+        <span class="pill">Windows Server</span>
+        <span class="pill">Active Directory</span>
+        <span class="pill">Linux (Ubuntu)</span>
+        <span class="pill">VMware</span>
+      </div>
+    </div>
+    <!-- <div class="skill-group reveal">
+      <h4>Bảo mật</h4>
+      <div class="skill-pills">
+        <span class="pill">Cybersecurity Essentials</span>
+        <span class="pill">IDS / IPS</span>
+        <span class="pill">Phân tích log</span>
+        <span class="pill">Kiểm tra lỗ hổng</span>
+      </div>
+    </div> -->
+    <div class="skill-group reveal">
+      <h4>Lập trình &amp; Cloud</h4>
+      <div class="skill-pills">
+        <span class="pill">PHP Laravel</span>
+        <span class="pill">MySQL</span>
+        <span class="pill">HTML / CSS</span>
+        <span class="pill">AWS (CLF-C01)</span>
+      </div>
+    </div>
+    <div class="skill-group reveal">
+      <h4>Kỹ năng mềm</h4>
+      <div class="skill-pills">
+        <span class="pill">Làm việc nhóm</span>
+        <span class="pill">Giải quyết vấn đề</span>
+        <span class="pill">Tổ chức & hành chính</span>
+        <span class="pill">Giao tiếp</span>
+        <span class="pill">Hỗ trợ người dùng</span>
+      </div>
+    </div>
+  </div>
+<section id="contact">
+  <p class="sec-label reveal">Liên hệ</p>
+  <h2 class="sec-title reveal">Kết nối với tôi</h2>
+  <div class="divider reveal" style="margin: .8rem auto 2.6rem;"></div>
+
+  <div class="contact-card reveal">
+    <p>Bạn có thể liên hệ qua các kênh dưới đây. Tôi luôn sẵn sàng trao đổi về các cơ hội hợp tác hoặc dự án mới.</p>
+    <div class="contact-links">
+      <a href="mailto:email@example.com" class="contact-link">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <rect x="2" y="4" width="20" height="16" rx="2"/>
+          <path d="M2 7l10 7 10-7"/>
+        </svg>
+        thien.hm27@gmail.com
+      </a>
+      <a href="tel:+84xxxxxxxxx" class="contact-link">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3.1 19.5 19.5 0 01-6-6 19.8 19.8 0 01-3.1-8.7A2 2 0 014.1 2h3a2 2 0 012 1.7c.1 1.2.4 2.3.8 3.4a2 2 0 01-.4 2.1L8.1 10.1a16 16 0 006 6l1.3-1.3a2 2 0 012.1-.5c1.1.4 2.2.7 3.4.8a2 2 0 011.7 2z"/>
+        </svg>
+        +84 xxx xxx xxx
+      </a>
+      <a href="https://linkedin.com/in/yourprofile" target="_blank" class="contact-link">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <rect x="2" y="2" width="20" height="20" rx="4"/>
+          <path d="M7 10v7M7 7v.01M12 17v-5M12 10a2 2 0 014 0v7"/>
+        </svg>
+        linkedin.com/in/yourprofile
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2025 Huỳnh Minh Thiện – Kỹ Sư Mạng Máy Tính &amp; Truyền Thông Dữ Liệu.</p>
+</footer>
+
+<script>
+  // Scroll reveal
+  const els = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  els.forEach(el => io.observe(el));
+
+  // Active nav link
+  const sections = document.querySelectorAll('section[id]');
+  const links = document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll', () => {
+    let cur = '';
+    sections.forEach(s => { if (window.scrollY >= s.offsetTop - 80) cur = s.id; });
+    links.forEach(a => {
+      a.style.color = a.getAttribute('href') === '#' + cur ? 'var(--accent)' : '';
+    });
+  });
+</script>
+</body>
+</html>
