@@ -19,9 +19,7 @@
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     html { scroll-behavior: smooth; font-size: 16px; }
-
     body {
       background: var(--bg);
       color: var(--text);
@@ -32,26 +30,71 @@
 
     /* ── NAV ── */
     nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
       height: var(--nav-h);
-      background: rgba(245,243,239,.92);
-      backdrop-filter: blur(10px);
+      background: rgba(245,243,239,.96);
+      backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
       display: flex; align-items: center; justify-content: space-between;
       padding: 0 5%;
     }
     .nav-logo {
       font-family: 'Playfair Display', serif;
-      font-size: 1.15rem; font-weight: 700;
-      color: var(--accent); letter-spacing: .03em;
+      font-size: 1.1rem; font-weight: 700;
+      color: var(--accent); letter-spacing: .02em;
+      white-space: nowrap; flex-shrink: 0;
     }
-    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links {
+      display: flex; gap: 1.6rem; list-style: none;
+    }
     .nav-links a {
-      text-decoration: none; font-size: .85rem; font-weight: 400;
+      text-decoration: none; font-size: .8rem; font-weight: 400;
       color: var(--muted); letter-spacing: .06em; text-transform: uppercase;
+      transition: color .2s; white-space: nowrap;
+    }
+    .nav-links a:hover, .nav-links a.active { color: var(--accent); }
+
+    /* Hamburger button */
+    .nav-burger {
+      display: none;
+      flex-direction: column; justify-content: center; gap: 5px;
+      cursor: pointer; padding: 4px; background: none; border: none;
+      width: 36px; height: 36px; flex-shrink: 0;
+    }
+    .nav-burger span {
+      display: block; height: 2px; width: 22px;
+      background: var(--text); border-radius: 2px;
+      transition: transform .28s, opacity .28s;
+    }
+    .nav-burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-burger.open span:nth-child(2) { opacity: 0; }
+    .nav-burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* Mobile drawer */
+    .nav-drawer {
+      display: none;
+      position: fixed; top: var(--nav-h); left: 0; right: 0;
+      background: rgba(245,243,239,.98);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+      z-index: 199;
+      padding: 1rem 6% 1.4rem;
+      flex-direction: column;
+      pointer-events: none;
+      opacity: 0; transform: translateY(-8px);
+      transition: opacity .22s ease, transform .22s ease;
+    }
+    .nav-drawer.open {
+      opacity: 1; transform: none; pointer-events: auto;
+    }
+    .nav-drawer a {
+      text-decoration: none; font-size: .88rem; font-weight: 400;
+      color: var(--muted); letter-spacing: .05em; text-transform: uppercase;
+      padding: .7rem 0; border-bottom: 1px solid var(--border);
       transition: color .2s;
     }
-    .nav-links a:hover { color: var(--accent); }
+    .nav-drawer a:last-child { border-bottom: none; }
+    .nav-drawer a:hover, .nav-drawer a.active { color: var(--accent); }
 
     /* ── HERO ── */
     #home {
@@ -59,292 +102,275 @@
       padding-top: var(--nav-h);
       display: flex; align-items: center;
       padding-left: 10%; padding-right: 10%;
-      gap: 6rem;
+      gap: 5rem;
     }
     .hero-text { flex: 1; }
-    .hero-tag {
-      display: inline-block;
-      background: var(--accent-lt); color: var(--accent);
-      font-size: .78rem; font-weight: 500;
-      letter-spacing: .1em; text-transform: uppercase;
-      padding: .35rem .9rem; border-radius: 2rem;
-      margin-bottom: 1.4rem;
-    }
     .hero-text h1 {
       font-family: 'Playfair Display', serif;
-      font-size: clamp(2.4rem, 5vw, 3.6rem);
-      font-weight: 700; line-height: 1.18;
+      font-size: clamp(2rem, 4.5vw, 3.4rem);
+      font-weight: 700; line-height: 1.2;
       color: var(--text); margin-bottom: 1rem;
     }
     .hero-text h1 span { color: var(--accent); }
-    .hero-text p {
-      font-size: 1rem; color: var(--muted);
-      max-width: 440px; margin-bottom: 2.2rem;
+    .hero-text > p {
+      font-size: .95rem; color: var(--muted);
+      max-width: 420px; margin-bottom: 2rem;
     }
     .btn-group { display: flex; gap: 1rem; flex-wrap: wrap; }
     .btn {
-      display: inline-block; padding: .7rem 1.8rem;
+      display: inline-block; padding: .65rem 1.6rem;
       border-radius: 4px; font-size: .88rem; font-weight: 500;
       text-decoration: none; cursor: pointer; transition: all .2s;
       border: 1.5px solid transparent;
     }
-    .btn-primary {
-      background: var(--accent); color: #fff;
-      border-color: var(--accent);
-    }
+    .btn-primary { background: var(--accent); color: #fff; border-color: var(--accent); }
     .btn-primary:hover { background: #3b5433; }
-    .btn-outline {
-      background: transparent; color: var(--accent);
-      border-color: var(--accent);
-    }
+    .btn-outline { background: transparent; color: var(--accent); border-color: var(--accent); }
     .btn-outline:hover { background: var(--accent-lt); }
 
     .hero-photo { flex-shrink: 0; }
+    .avatar-outer { position: relative; text-align: center; }
     .avatar-wrap {
-      width: 260px; height: 310px;
-      border-radius: 12px;
-      overflow: hidden;
+      width: 240px; height: 290px;
+      border-radius: 14px; overflow: hidden;
       border: 3px solid var(--border);
       background: var(--surface);
-      box-shadow: 0 12px 40px rgba(0,0,0,.08);
+      box-shadow: 0 12px 40px rgba(0,0,0,.1);
       display: flex; align-items: center; justify-content: center;
-      position: relative;
+      margin: 0 auto;
     }
-    .avatar-wrap img {
-      width: 100%; height: 100%; object-fit: cover;
-      display: block;
-    }
+    .avatar-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
     .avatar-placeholder {
       display: flex; flex-direction: column;
       align-items: center; justify-content: center; gap: .6rem;
-      color: var(--muted); font-size: .82rem; text-align: center; padding: 1rem;
+      color: var(--muted); font-size: .8rem; text-align: center; padding: 1rem;
     }
-    .avatar-placeholder svg { opacity: .35; }
-    .avatar-badge {
-      position: absolute; bottom: -14px; left: 50%; transform: translateX(-50%);
-      background: var(--accent); color: #fff;
-      font-size: .75rem; font-weight: 500;
-      padding: .3rem .9rem; border-radius: 2rem; white-space: nowrap;
-    }
-    .avatar-outer { position: relative; padding-bottom: 20px; }
-
+    .avatar-placeholder svg { opacity: .28; }
     .hero-name {
       font-family: 'Playfair Display', serif;
-      font-size: clamp(1rem, 2vw, 1.25rem);
-      color: var(--muted); font-weight: 400;
-      margin-bottom: .5rem; letter-spacing: .04em;
-      text-align: center;
+      font-size: 1.05rem; color: var(--muted); font-weight: 400;
+      margin-top: .85rem; letter-spacing: .04em;
+    }
+    .hero-name-tag {
+      display: inline-block; margin-top: .45rem;
+      background: var(--accent-lt); color: var(--accent);
+      font-size: .74rem; font-weight: 500;
+      letter-spacing: .09em; text-transform: uppercase;
+      padding: .28rem .82rem; border-radius: 2rem;
     }
 
-    /* ── OBJECTIVE ── */
-    #objective { background: var(--bg); }
-    .obj-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 1.2rem; margin-top: .5rem;
-    }
-    .obj-card {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: 8px; padding: 1.6rem 1.8rem;
-      transition: box-shadow .2s, transform .2s;
-    }
-    .obj-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,.07); }
-    .obj-card-icon { font-size: 1.6rem; margin-bottom: .7rem; }
-    .obj-card h4 {
-      font-family: 'Playfair Display', serif;
-      font-size: 1rem; font-weight: 600; margin-bottom: .5rem;
-    }
-    .obj-card p { font-size: .87rem; color: var(--muted); line-height: 1.65; }
-    .obj-intro {
-      background: var(--surface); border: 1px solid var(--border);
-      border-left: 4px solid var(--accent);
-      border-radius: 8px; padding: 1.6rem 2rem;
-      margin-bottom: 2rem; font-size: .95rem; color: var(--muted); line-height: 1.75;
-    }
-    section { padding: 90px 10%; }
-    section:nth-child(odd) { background: var(--bg); }
+    /* ── SECTIONS ── */
+    section { padding: 88px 10%; }
+    section:nth-child(odd)  { background: var(--bg); }
     section:nth-child(even) { background: var(--surface); }
 
     .sec-label {
-      font-size: .78rem; font-weight: 500; letter-spacing: .12em;
-      text-transform: uppercase; color: var(--accent); margin-bottom: .6rem;
+      font-size: .77rem; font-weight: 500; letter-spacing: .12em;
+      text-transform: uppercase; color: var(--accent); margin-bottom: .5rem;
     }
     .sec-title {
       font-family: 'Playfair Display', serif;
-      font-size: clamp(1.7rem, 3vw, 2.4rem); font-weight: 700;
-      color: var(--text); margin-bottom: 3rem;
+      font-size: clamp(1.6rem, 3vw, 2.3rem); font-weight: 700; color: var(--text);
     }
-    .divider {
-      width: 40px; height: 2px; background: var(--accent);
-      margin: .8rem 0 2.6rem;
+    .divider { width: 40px; height: 2px; background: var(--accent); margin: .8rem 0 2.4rem; }
+
+    /* ── OBJECTIVE ── */
+    #objective { background: var(--bg); }
+    .obj-intro {
+      background: var(--surface); border: 1px solid var(--border);
+      border-left: 4px solid var(--accent);
+      border-radius: 8px; padding: 1.4rem 1.8rem;
+      margin-bottom: 1.8rem; font-size: .93rem; color: var(--muted); line-height: 1.75;
     }
+    .obj-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 1.1rem;
+    }
+    .obj-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 8px; padding: 1.4rem 1.5rem;
+      transition: box-shadow .2s, transform .2s;
+    }
+    .obj-card:hover { transform: translateY(-3px); box-shadow: 0 8px 22px rgba(0,0,0,.07); }
+    .obj-card-icon { font-size: 1.45rem; margin-bottom: .55rem; }
+    .obj-card h4 {
+      font-family: 'Playfair Display', serif;
+      font-size: .97rem; font-weight: 600; margin-bottom: .4rem;
+    }
+    .obj-card p { font-size: .85rem; color: var(--muted); line-height: 1.63; }
 
     /* ── EDUCATION ── */
+    #education { background: var(--surface); }
     .edu-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
+      background: var(--bg); border: 1px solid var(--border);
       border-left: 4px solid var(--accent);
-      border-radius: 8px; padding: 2rem 2.2rem;
-      margin-bottom: 1.6rem;
+      border-radius: 8px; padding: 1.7rem 2rem; margin-bottom: 1.3rem;
       transition: box-shadow .2s;
     }
-    #education { background: var(--surface); }
-    #education .edu-card { background: var(--bg); }
-    .edu-card:hover { box-shadow: 0 6px 24px rgba(0,0,0,.07); }
+    .edu-card:hover { box-shadow: 0 6px 22px rgba(0,0,0,.07); }
     .edu-card h3 {
       font-family: 'Playfair Display', serif;
-      font-size: 1.15rem; font-weight: 600; margin-bottom: .3rem;
+      font-size: 1.1rem; font-weight: 600; margin-bottom: .28rem;
     }
     .edu-meta {
-      font-size: .83rem; color: var(--accent);
-      font-weight: 500; margin-bottom: .8rem;
-      display: flex; gap: 1.2rem; flex-wrap: wrap;
+      font-size: .81rem; color: var(--accent); font-weight: 500;
+      margin-bottom: .75rem; display: flex; gap: 1.1rem; flex-wrap: wrap;
     }
-    .edu-meta span { display: flex; align-items: center; gap: .3rem; }
-    .edu-card p { font-size: .9rem; color: var(--muted); }
+    .edu-card p { font-size: .89rem; color: var(--muted); }
     .tag-thesis {
-      display: inline-block; margin-top: .9rem;
+      display: inline-block; margin-top: .85rem;
       background: var(--accent-lt); color: var(--accent);
-      font-size: .78rem; font-weight: 500;
-      padding: .28rem .75rem; border-radius: 3px;
+      font-size: .77rem; font-weight: 500; padding: .26rem .72rem; border-radius: 3px;
     }
 
     /* ── CERTS ── */
+    #certifications { background: var(--bg); }
     .certs-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-      gap: 1.2rem;
+      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+      gap: 1rem;
     }
     .cert-card {
       border: 1px solid var(--border); border-radius: 8px;
-      padding: 1.5rem 1.6rem; background: var(--surface);
+      padding: 1.35rem 1.45rem; background: var(--surface);
       transition: transform .2s, box-shadow .2s;
       position: relative; overflow: hidden;
     }
-    #certifications { background: var(--bg); }
-    #certifications .cert-card { background: var(--surface); }
     .cert-card::before {
       content: ''; position: absolute; top: 0; left: 0; right: 0;
       height: 3px; background: var(--accent);
     }
-    .cert-card:hover { transform: translateY(-4px); box-shadow: 0 10px 30px rgba(0,0,0,.08); }
-    .cert-icon { font-size: 1.7rem; margin-bottom: .8rem; }
-    .cert-card h4 { font-size: .95rem; font-weight: 500; margin-bottom: .4rem; }
-    .cert-card .cert-rank {
-      display: inline-block; font-size: .75rem; font-weight: 600;
-      background: #fef9e7; color: #b8860b;
-      padding: .2rem .6rem; border-radius: 3px;
+    .cert-card:hover { transform: translateY(-4px); box-shadow: 0 10px 26px rgba(0,0,0,.08); }
+    .cert-icon { font-size: 1.55rem; margin-bottom: .65rem; }
+    .cert-card h4 { font-size: .92rem; font-weight: 500; margin-bottom: .32rem; }
+    .cert-card p { font-size: .79rem; color: var(--muted); margin-bottom: .5rem; }
+    .cert-rank {
+      display: inline-block; font-size: .73rem; font-weight: 600;
+      background: #fef9e7; color: #b8860b; padding: .17rem .52rem; border-radius: 3px;
     }
-    .cert-card .cert-rank.pass {
-      background: var(--accent-lt); color: var(--accent);
-    }
+    .cert-rank.pass { background: var(--accent-lt); color: var(--accent); }
 
     /* ── EXPERIENCE ── */
+    #experience { background: var(--surface); }
     .exp-timeline { position: relative; padding-left: 28px; }
     .exp-timeline::before {
       content: ''; position: absolute; left: 8px; top: 8px; bottom: 8px;
       width: 2px; background: var(--border);
     }
-    .exp-item { position: relative; margin-bottom: 2.4rem; }
+    .exp-item { position: relative; margin-bottom: 2rem; }
     .exp-dot {
       position: absolute; left: -24px; top: 6px;
       width: 14px; height: 14px; border-radius: 50%;
-      background: var(--accent); border: 3px solid var(--bg);
+      background: var(--accent); border: 3px solid var(--surface);
     }
-    #experience { background: var(--surface); }
-    #experience .exp-dot { border-color: var(--surface); }
+    .exp-dot.gray { background: var(--muted); }
     .exp-card {
       background: var(--bg); border: 1px solid var(--border);
-      border-radius: 8px; padding: 1.6rem 1.8rem;
+      border-radius: 8px; padding: 1.45rem 1.65rem;
     }
-    #experience .exp-card { background: var(--bg); }
     .exp-card h3 {
       font-family: 'Playfair Display', serif;
-      font-size: 1.1rem; font-weight: 600; margin-bottom: .25rem;
+      font-size: 1.07rem; font-weight: 600; margin-bottom: .2rem;
     }
-    .exp-company {
-      font-size: .85rem; color: var(--accent); font-weight: 500;
-      margin-bottom: .35rem;
-    }
+    .exp-company { font-size: .83rem; color: var(--accent); font-weight: 500; margin-bottom: .28rem; }
     .exp-period {
-      font-size: .8rem; color: var(--muted); margin-bottom: .9rem;
-      display: flex; align-items: center; gap: .4rem;
+      font-size: .78rem; color: var(--muted); margin-bottom: .8rem;
+      display: flex; align-items: center; gap: .4rem; flex-wrap: wrap;
     }
     .badge-current {
       background: var(--accent); color: #fff;
-      font-size: .7rem; font-weight: 600;
-      padding: .18rem .55rem; border-radius: 2rem;
+      font-size: .67rem; font-weight: 600; padding: .15rem .48rem; border-radius: 2rem;
     }
     .exp-card ul { list-style: none; }
     .exp-card ul li {
-      font-size: .9rem; color: var(--muted);
-      padding: .2rem 0; display: flex; align-items: flex-start; gap: .6rem;
+      font-size: .87rem; color: var(--muted);
+      padding: .17rem 0; display: flex; align-items: flex-start; gap: .5rem;
     }
-    .exp-card ul li::before {
-      content: '▸'; color: var(--accent); flex-shrink: 0; margin-top: .05rem;
-    }
+    .exp-card ul li::before { content: '▸'; color: var(--accent); flex-shrink: 0; margin-top: .05rem; }
 
     /* ── SKILLS ── */
+    #skills { background: var(--bg); }
     .skills-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 1.4rem;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 1.2rem;
     }
     .skill-group {
       background: var(--surface); border: 1px solid var(--border);
-      border-radius: 8px; padding: 1.6rem 1.8rem;
+      border-radius: 8px; padding: 1.45rem 1.65rem;
     }
-    #skills { background: var(--bg); }
     .skill-group h4 {
-      font-size: .83rem; letter-spacing: .09em; text-transform: uppercase;
-      color: var(--accent); font-weight: 600; margin-bottom: 1rem;
+      font-size: .79rem; letter-spacing: .09em; text-transform: uppercase;
+      color: var(--accent); font-weight: 600; margin-bottom: .85rem;
     }
-    .skill-pills { display: flex; flex-wrap: wrap; gap: .5rem; }
+    .skill-pills { display: flex; flex-wrap: wrap; gap: .42rem; }
     .pill {
       background: var(--bg); border: 1px solid var(--border);
-      color: var(--text); font-size: .82rem;
-      padding: .3rem .75rem; border-radius: 3px;
+      color: var(--text); font-size: .79rem; padding: .26rem .68rem; border-radius: 3px;
     }
 
     /* ── CONTACT ── */
     #contact { background: var(--surface); text-align: center; }
     .contact-card {
-      max-width: 520px; margin: 0 auto;
+      max-width: 480px; margin: 0 auto;
       background: var(--bg); border: 1px solid var(--border);
-      border-radius: 12px; padding: 3rem;
+      border-radius: 12px; padding: 2.4rem;
     }
-    .contact-card p { color: var(--muted); margin-bottom: 2rem; font-size: .95rem; }
-    .contact-links { display: flex; flex-direction: column; gap: .9rem; }
+    .contact-card > p { color: var(--muted); margin-bottom: 1.7rem; font-size: .92rem; }
+    .contact-links { display: flex; flex-direction: column; gap: .8rem; }
     .contact-link {
-      display: flex; align-items: center; gap: .85rem;
-      padding: .9rem 1.2rem; border-radius: 6px;
+      display: flex; align-items: center; gap: .8rem;
+      padding: .82rem 1.1rem; border-radius: 6px;
       border: 1px solid var(--border); background: var(--surface);
       text-decoration: none; color: var(--text);
-      font-size: .9rem; transition: all .2s;
+      font-size: .87rem; transition: all .2s; text-align: left;
+      word-break: break-all;
     }
     .contact-link:hover { border-color: var(--accent); color: var(--accent); }
     .contact-link svg { flex-shrink: 0; }
 
     /* ── FOOTER ── */
     footer {
-      text-align: center; padding: 2.4rem 10%;
+      text-align: center; padding: 1.8rem 10%;
       border-top: 1px solid var(--border);
-      font-size: .82rem; color: var(--muted);
+      font-size: .79rem; color: var(--muted);
       background: var(--bg);
     }
 
     /* ── SCROLL ANIMATIONS ── */
-    .reveal { opacity: 0; transform: translateY(22px); transition: opacity .55s ease, transform .55s ease; }
+    .reveal { opacity: 0; transform: translateY(18px); transition: opacity .5s ease, transform .5s ease; }
     .reveal.visible { opacity: 1; transform: none; }
 
     /* ── RESPONSIVE ── */
-    @media (max-width: 768px) {
-      #home { flex-direction: column-reverse; padding-top: calc(var(--nav-h) + 2rem); gap: 2.5rem; text-align: center; }
-      .hero-text p { max-width: 100%; }
+    @media (max-width: 860px) {
+      .nav-links { display: none; }
+      .nav-burger { display: flex; }
+      .nav-drawer { display: flex; }
+
+      #home {
+        flex-direction: column;
+        padding-top: calc(var(--nav-h) + 2.5rem);
+        padding-bottom: 3rem;
+        gap: 1.8rem; text-align: center; min-height: auto;
+      }
+      .hero-text { order: 2; }
+      .hero-photo { order: 1; }
+      .hero-text > p { max-width: 100%; margin-left: auto; margin-right: auto; }
       .btn-group { justify-content: center; }
-      .avatar-wrap { width: 200px; height: 240px; }
-      .nav-links { gap: 1.1rem; }
-      section { padding: 70px 6%; }
+      .avatar-wrap { width: 175px; height: 215px; }
+
+      section { padding: 60px 6%; }
+      .obj-grid { grid-template-columns: 1fr 1fr; }
+      .certs-grid { grid-template-columns: 1fr 1fr; }
+      .skills-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 480px) {
+      .hero-text h1 { font-size: 1.85rem; }
+      .obj-grid, .certs-grid, .skills-grid { grid-template-columns: 1fr; }
+      .contact-card { padding: 1.5rem; }
+      section { padding: 55px 5%; }
     }
   </style>
 </head>
@@ -352,7 +378,9 @@
 
 <!-- NAV -->
 <nav>
-  <div class="nav-logo">Hello Everyone</div>
+  <div class="nav-logo">Huỳnh Minh Thiện</div>
+
+  <!-- Desktop links -->
   <ul class="nav-links">
     <li><a href="#home">Trang chủ</a></li>
     <li><a href="#objective">Mục tiêu</a></li>
@@ -362,33 +390,48 @@
     <li><a href="#skills">Kỹ năng</a></li>
     <li><a href="#contact">Liên hệ</a></li>
   </ul>
+
+  <!-- Hamburger button (mobile) -->
+  <button class="nav-burger" id="burger" aria-label="Mở menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+
+<!-- Mobile drawer -->
+<div class="nav-drawer" id="drawer">
+  <a href="#home"           onclick="closeDrawer()">🏠 Trang chủ</a>
+  <a href="#objective"      onclick="closeDrawer()">🎯 Mục tiêu nghề nghiệp</a>
+  <a href="#education"      onclick="closeDrawer()">🎓 Học vấn</a>
+  <a href="#certifications" onclick="closeDrawer()">🏅 Chứng chỉ</a>
+  <a href="#experience"     onclick="closeDrawer()">💼 Kinh nghiệm</a>
+  <a href="#skills"         onclick="closeDrawer()">🛠️ Kỹ năng</a>
+  <a href="#contact"        onclick="closeDrawer()">📬 Liên hệ</a>
+</div>
 
 <!-- HERO -->
 <section id="home">
   <div class="hero-text reveal">
-    
-    <h1>Kỹ Sư<br><span>Mạng Máy Tính  và <br>Truyền Thông Dữ Liệu</span></h1>
-    <p>Kỹ sư chuyên ngành Mạng Máy Tính &amp; Truyền Thông Dữ Liệu với nền tảng vững chắc về hạ tầng mạng, bảo mật và hỗ trợ kỹ thuật.</p>
+    <h1>Kỹ Sư<br><span>Mạng Máy Tính &<br>Truyền Thông Dữ Liệu</span></h1>
+    <p>Kỹ sư chuyên ngành Mạng Máy Tính &amp; Truyền Thông với nền tảng vững chắc về hạ tầng mạng, bảo mật và hỗ trợ kỹ thuật.</p>
     <div class="btn-group">
       <a href="#experience" class="btn btn-primary">Xem kinh nghiệm</a>
       <a href="#contact" class="btn btn-outline">Thông tin liên hệ</a>
     </div>
   </div>
+
   <div class="hero-photo reveal">
     <div class="avatar-outer">
       <div class="avatar-wrap">
-        <!-- Thay src bằng đường dẫn ảnh thật của bạn -->
+        <!-- ĐỂ THÊM ẢNH: xoá thẻ div.avatar-placeholder bên dưới và thay bằng: <img src="thien_img.jpg" alt="Huỳnh Minh Thiện"> -->
         <div class="avatar-placeholder">
-          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
-            <img src="thien_img.jpg" alt="">
+          <svg width="58" height="58" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+            <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
           </svg>
-          <span>Ảnh đại diện<br><small style="opacity:.6">(thay bằng ảnh thật)</small></span>
+          <span style="font-size:.76rem;"><img src="thien_img.jpg" alt="Huỳnh Minh Thiện"><br><small style="opacity:.5">src="thien_img.jpg"</small></span>
         </div>
       </div>
-      <br>
-        <p class="hero-name">Huỳnh Minh Thiện</p>
-        <span class="hero-tag">IT Support · Network Engineer</span>
+      <p class="hero-name">Huỳnh Minh Thiện</p>
+      <span class="hero-name-tag">IT Support · Network Engineer</span>
     </div>
   </div>
 </section>
@@ -417,7 +460,7 @@
     <div class="obj-card reveal">
       <div class="obj-card-icon">🌐</div>
       <h4>Dài hạn</h4>
-      <p>Đảm nhận vai trò quản lý hệ thống CNTT cấp cao hoặc chuyên gia tư vấn giải pháp mạng & bảo mật cho doanh nghiệp vừa và lớn.</p>
+      <p>Đảm nhận vai trò quản lý hệ thống CNTT cấp cao hoặc chuyên gia tư vấn giải pháp mạng &amp; bảo mật cho doanh nghiệp vừa và lớn.</p>
     </div>
     <div class="obj-card reveal">
       <div class="obj-card-icon">📚</div>
@@ -441,7 +484,7 @@
     </div>
     <p>Chuyên ngành Mạng Máy Tính và Truyền Thông. Trang bị kiến thức về hạ tầng mạng, giao thức truyền thông, bảo mật hệ thống và quản trị máy chủ.</p>
     <span class="tag-thesis">🐾 Luận văn: Website Cửa Hàng Chăm Sóc Thú Cưng Trực Tuyến</span>
-    <p style="margin-top:.75rem; font-size:.88rem; color:var(--muted);">
+    <p style="margin-top:.7rem; font-size:.86rem; color:var(--muted);">
       Xây dựng hệ thống thương mại điện tử tích hợp đặt lịch chăm sóc, lịch khám bệnh cho thú cưng. Phát triển bằng framework <strong>PHP Laravel</strong>.
     </p>
   </div>
@@ -454,42 +497,36 @@
   <div class="divider reveal"></div>
 
   <div class="certs-grid">
-
     <div class="cert-card reveal">
       <div class="cert-icon">🖥️</div>
       <h4>MCSA</h4>
-      <p style="font-size:.83rem; color:var(--muted); margin-bottom:.6rem;">Microsoft Certified Solutions Associate</p>
+      <p>Microsoft Certified Solutions Associate</p>
       <span class="cert-rank">⭐ Xuất Sắc</span>
     </div>
-
     <div class="cert-card reveal">
       <div class="cert-icon">🌐</div>
       <h4>CCNA</h4>
-      <p style="font-size:.83rem; color:var(--muted); margin-bottom:.6rem;">Cisco Certified Network Associate</p>
+      <p>Cisco Certified Network Associate</p>
       <span class="cert-rank">⭐ Xuất Sắc</span>
     </div>
-
     <div class="cert-card reveal">
       <div class="cert-icon">🔐</div>
       <h4>Cybersecurity Essentials</h4>
-      <p style="font-size:.83rem; color:var(--muted); margin-bottom:.6rem;">Cisco Networking Academy</p>
+      <p>Cisco Networking Academy</p>
       <span class="cert-rank pass">✔ Hoàn thành</span>
     </div>
-
     <div class="cert-card reveal">
       <div class="cert-icon">📡</div>
       <h4>Networking Essentials</h4>
-      <p style="font-size:.83rem; color:var(--muted); margin-bottom:.6rem;">Cisco Networking Academy</p>
+      <p>Cisco Networking Academy</p>
       <span class="cert-rank pass">✔ Hoàn thành</span>
     </div>
-
     <div class="cert-card reveal">
       <div class="cert-icon">☁️</div>
       <h4>AWS Cloud Practitioner Essentials</h4>
-      <p style="font-size:.83rem; color:var(--muted); margin-bottom:.6rem;">Amazon Web Services</p>
+      <p>Amazon Web Services</p>
       <span class="cert-rank pass">✔ Hoàn thành</span>
     </div>
-
   </div>
 </section>
 
@@ -514,13 +551,13 @@
           <li>Cấu hình, bảo trì hệ thống mạng nội bộ và thiết bị văn phòng.</li>
           <li>Quản lý tài khoản người dùng và phân quyền hệ thống.</li>
           <li>Hỗ trợ triển khai và cập nhật phần mềm, hệ điều hành.</li>
-          <li>Làm việc tại phòng Nhân Sự – tích lũy thêm kinh nghiệm về quy trình tổ chức nội bộ, phối hợp liên phòng ban và hỗ trợ các công việc hành chính nhân sự.</li>
+          <li>Làm việc tại phòng Nhân Sự – tích lũy kinh nghiệm về quy trình tổ chức nội bộ, phối hợp liên phòng ban và hỗ trợ công tác hành chính nhân sự.</li>
         </ul>
       </div>
     </div>
 
     <div class="exp-item reveal">
-      <div class="exp-dot" style="background:var(--muted);"></div>
+      <div class="exp-dot gray"></div>
       <div class="exp-card">
         <h3>Thực tập sinh – Triển khai CNTT</h3>
         <div class="exp-company">VNPT – Trung tâm Huyện Lai Vung</div>
@@ -528,10 +565,10 @@
         <ul>
           <li>Triển khai và hướng dẫn sử dụng <strong>Chữ ký số</strong> cho các cơ quan, trường học trên địa bàn huyện Lai Vung.</li>
           <li>Hỗ trợ triển khai phần mềm quản lý giáo dục <strong>VnEdu</strong> đến các trường học trong huyện.</li>
-          <li>Trực tiếp làm việc với cán bộ, giáo viên để hướng dẫn, xử lý sự cố trong quá trình sử dụng hệ thống.</li>
+          <li>Trực tiếp làm việc với cán bộ, giáo viên để hướng dẫn và xử lý sự cố khi sử dụng hệ thống.</li>
           <li>Rèn luyện kỹ năng làm việc nhóm và kỹ năng giải quyết vấn đề trong môi trường thực tế.</li>
         </ul>
-        <span class="tag-thesis" style="margin-top:.8rem; display:inline-block;">📍 Huyện Lai Vung, Đồng Tháp</span>
+        <span class="tag-thesis" style="margin-top:.8rem;display:inline-block;">📍 Huyện Lai Vung, Đồng Tháp</span>
       </div>
     </div>
   </div>
@@ -564,15 +601,6 @@
         <span class="pill">VMware</span>
       </div>
     </div>
-    <!-- <div class="skill-group reveal">
-      <h4>Bảo mật</h4>
-      <div class="skill-pills">
-        <span class="pill">Cybersecurity Essentials</span>
-        <span class="pill">IDS / IPS</span>
-        <span class="pill">Phân tích log</span>
-        <span class="pill">Kiểm tra lỗ hổng</span>
-      </div>
-    </div> -->
     <div class="skill-group reveal">
       <h4>Lập trình &amp; Cloud</h4>
       <div class="skill-pills">
@@ -587,24 +615,26 @@
       <div class="skill-pills">
         <span class="pill">Làm việc nhóm</span>
         <span class="pill">Giải quyết vấn đề</span>
-        <span class="pill">Tổ chức & hành chính</span>
+        <span class="pill">Tổ chức &amp; hành chính</span>
         <span class="pill">Giao tiếp</span>
         <span class="pill">Hỗ trợ người dùng</span>
       </div>
     </div>
   </div>
+</section>
+
+<!-- CONTACT -->
 <section id="contact">
   <p class="sec-label reveal">Liên hệ</p>
   <h2 class="sec-title reveal">Kết nối với tôi</h2>
-  <div class="divider reveal" style="margin: .8rem auto 2.6rem;"></div>
+  <div class="divider reveal" style="margin-left:auto;margin-right:auto;"></div>
 
   <div class="contact-card reveal">
     <p>Bạn có thể liên hệ qua các kênh dưới đây. Tôi luôn sẵn sàng trao đổi về các cơ hội hợp tác hoặc dự án mới.</p>
     <div class="contact-links">
-      <a href="mailto:email@example.com" class="contact-link">
+      <a href="mailto:thien.hm27@gmail.com" class="contact-link">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-          <rect x="2" y="4" width="20" height="16" rx="2"/>
-          <path d="M2 7l10 7 10-7"/>
+          <rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 7 10-7"/>
         </svg>
         thien.hm27@gmail.com
       </a>
@@ -631,22 +661,44 @@
 </footer>
 
 <script>
-  // Scroll reveal
-  const els = document.querySelectorAll('.reveal');
+  /* ── Scroll reveal ── */
+  const revealEls = document.querySelectorAll('.reveal');
   const io = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
-  }, { threshold: 0.12 });
-  els.forEach(el => io.observe(el));
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.09 });
+  revealEls.forEach(el => io.observe(el));
 
-  // Active nav link
-  const sections = document.querySelectorAll('section[id]');
-  const links = document.querySelectorAll('.nav-links a');
+  /* ── Active nav highlight ── */
+  const secs = document.querySelectorAll('section[id]');
+  const allLinks = document.querySelectorAll('.nav-links a, .nav-drawer a');
   window.addEventListener('scroll', () => {
     let cur = '';
-    sections.forEach(s => { if (window.scrollY >= s.offsetTop - 80) cur = s.id; });
-    links.forEach(a => {
-      a.style.color = a.getAttribute('href') === '#' + cur ? 'var(--accent)' : '';
+    secs.forEach(s => { if (window.scrollY >= s.offsetTop - 90) cur = s.id; });
+    allLinks.forEach(a => {
+      a.classList.toggle('active', a.getAttribute('href') === '#' + cur);
     });
+  }, { passive: true });
+
+  /* ── Hamburger ── */
+  const burger = document.getElementById('burger');
+  const drawer = document.getElementById('drawer');
+
+  function closeDrawer() {
+    burger.classList.remove('open');
+    drawer.classList.remove('open');
+  }
+
+  burger.addEventListener('click', e => {
+    e.stopPropagation();
+    const isOpen = !drawer.classList.contains('open');
+    drawer.classList.toggle('open', isOpen);
+    burger.classList.toggle('open', isOpen);
+  });
+
+  document.addEventListener('click', e => {
+    if (!drawer.contains(e.target) && !burger.contains(e.target)) closeDrawer();
   });
 </script>
 </body>
